@@ -35,7 +35,8 @@ def make_conv(f_in, f_out):
     return SAGEConv(f_in, f_out)
 
 def make_pool(f_in):
-    return torch_geometric.nn.TopKPooling(f_in, ratio=0.5)
+    #return torch_geometric.nn.TopKPooling(f_in, ratio=0.5)
+    return torch_geometric.nn.SAGPooling(f_in, ratio=0.5)
 
 def main():
     #dataset = MNISTSuperpixels(root='~/MNISTSuperpixels', train=True)
@@ -65,11 +66,11 @@ def main():
 
             x = self.conv1(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, training=self.training)
+            #x = F.dropout(x, training=self.training)
             x, edge_index, _, batch, _, _ = self.pool1(x=x, edge_index=edge_index, batch=batch)
             x = self.conv2(x, edge_index)
             x = F.relu(x)
-            x = F.dropout(x, training=self.training)
+            #x = F.dropout(x, training=self.training)
             x, edge_index, _, batch, _, _ = self.pool2(x=x, edge_index=edge_index, batch=batch)
             x = self.conv3(x, edge_index)
             x, edge_index, _, batch, _, _ = self.pool3(x=x, edge_index=edge_index, batch=batch)
